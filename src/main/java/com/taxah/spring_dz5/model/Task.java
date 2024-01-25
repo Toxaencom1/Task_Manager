@@ -15,12 +15,11 @@ public class Task {
     private Long id;
     @Column(nullable = false)
     private String description;
-
     @Column(name = "LOCALDATETIME", nullable = false)
     private LocalDateTime localDateTime = LocalDateTime.now();
     @Column
     @Enumerated(EnumType.STRING)
-    private Status status = Status.CREATE;
+    private Status status;
 }
 
 

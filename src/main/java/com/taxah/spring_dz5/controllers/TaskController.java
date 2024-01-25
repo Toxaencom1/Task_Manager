@@ -17,6 +17,11 @@ import java.util.Optional;
 @AllArgsConstructor
 @RequestMapping
 public class TaskController {
+    private static final String TASKS = "tasks";
+    private static final String TASKS_ATTRIBUTE = "tasks";
+    private static final String R_TASKS = "redirect:/tasks";
+
+
     private final TaskService service;
 
     @GetMapping("/")
@@ -28,22 +33,20 @@ public class TaskController {
     @GetMapping("/tasks")
     public String showAllTasks(Model model) {
         List<Task> tasks = service.getAllTasks();
-        model.addAttribute("tasks", tasks);
-        return "tasks";
+        model.addAttribute(TASKS_ATTRIBUTE, tasks);
+        return TASKS;
     }
 
     @PostMapping("/tasks")
-    public String addTask(Task task, Model model) {
+    public String addTask(Task task) {
         service.addTask(task);
-        List<Task> tasks = service.getAllTasks();
-        model.addAttribute("tasks", tasks);
-        return "redirect:/tasks";
+        return R_TASKS;
     }
 
     @RequestMapping("/task-delete/{id}")
     public String deleteTask(@PathVariable("id") Long id) {
         service.deleteTask(id);
-        return "redirect:/tasks";
+        return R_TASKS;
     }
 
     @GetMapping("/task-update/{id}")
@@ -60,13 +63,13 @@ public class TaskController {
     @PutMapping("/task-update/{id}")
     public String updateTask(@PathVariable Long id, Task task) {
         service.updateTask(task, id);
-        return "redirect:/tasks";
+        return R_TASKS;
     }
 
     @RequestMapping("/findByStatus")
-    public String processForm(@RequestParam("state") Status status, Model model) {
+    public String findByStatus(@RequestParam("state") Status status, Model model) {
         List<Task> tasks = service.findByStatus(status);
-        model.addAttribute("tasks", tasks);
-        return "tasks";
+        model.addAttribute(TASKS_ATTRIBUTE, tasks);
+        return TASKS;
     }
 }
