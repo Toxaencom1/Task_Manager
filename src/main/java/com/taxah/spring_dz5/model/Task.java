@@ -5,8 +5,6 @@ import lombok.Data;
 
 
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
-
 
 @Data
 @Entity
@@ -23,11 +21,6 @@ public class Task {
     @Column
     @Enumerated(EnumType.STRING)
     private Status status = Status.CREATE;
-    public enum Status{
-        CREATE,
-        PROCESSING,
-        FINISHED
-    }
 }
 
 

@@ -5,6 +5,7 @@ body {
 }
 
 h2 {
+    text-align: center;
     color: #333;
 }
 
@@ -33,3 +34,14 @@ th, td {
     border-bottom: 1px solid #ddd;
 }
 
+a {
+    text-decoration: none;
+    color: #4CAF50;
+    cursor: pointer;
+    transition: color 0.3s ease;
+}
+
+
+a:hover {
+    color: #af4c4c;
+}

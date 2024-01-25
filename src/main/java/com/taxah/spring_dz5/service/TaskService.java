@@ -1,5 +1,6 @@
 package com.taxah.spring_dz5.service;
 
+import com.taxah.spring_dz5.model.Status;
 import com.taxah.spring_dz5.model.Task;
 import com.taxah.spring_dz5.repository.TaskRepository;
 import lombok.AllArgsConstructor;
@@ -27,13 +28,10 @@ public class TaskService {
         return repository.save(task);
     }
 
-    public List<Task> getTasksByStatus(Task.Status status) {
+    public List<Task> findByStatus(Status status) {
         return repository.findByStatus(status);
     }
 
-//    public Task updateTask(Task updatedTask) {
-//        return repository.save(updatedTask);
-//    }
     public Task updateTask(Task updatedTask, Long id) {
         Optional<Task> optionalTask = repository.findById(id);
         if (optionalTask.isPresent()) {
@@ -50,4 +48,5 @@ public class TaskService {
     public void deleteTask(Long id) {
         repository.deleteById(id);
     }
+
 }

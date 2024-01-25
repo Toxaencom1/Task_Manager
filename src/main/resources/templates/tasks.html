@@ -1,14 +1,14 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Список задач</title>
+    <title>Task Manager</title>
     <link rel="stylesheet" href="/css/tasks.css">
 </head>
 <body>
 
-<h2>Список задач</h2>
-<h2>Add a Task</h2>
+<h2>Task Manager</h2>
+<h3>Add a Task:</h3>
 <form action="/tasks" method="post">
     <textarea id="description" name="description" rows="4" cols="50" required></textarea><br>
     <label for="status">Status </label><select id="status" name="status" required>
@@ -23,11 +23,11 @@
     <thead>
     <tr>
         <th>ID</th>
-        <th>Описание</th>
-        <th>Дата и время</th>
-        <th>Статус</th>
-        <th>Редактирование</th>
-        <th>Удаление</th>
+        <th>Description</th>
+        <th>Date and time</th>
+        <th>Status</th>
+        <th>Edit</th>
+        <th>Delete</th>
     </tr>
     </thead>
     <tbody>
@@ -42,6 +42,17 @@
     </tr>
     </tbody>
 </table>
+
+<form action="/findByStatus" method="post">
+    <label> Filter by Status
+        <select name="state">
+            <option th:each="status : ${T(com.taxah.spring_dz5.model.Status).values()}"
+                    th:value="${status}" th:text="${status}"></option>
+        </select>
+    </label>
+    <button type="submit">Find</button><br>
+    <a th:href="tasks">Clear Filter</a>
+</form>
 
 </body>
 </html>

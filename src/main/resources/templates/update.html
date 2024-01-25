@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>Update Form</title>
@@ -20,9 +20,8 @@
     <option value="PROCESSING" >Processing</option>
     <option value="FINISHED" >Finished</option>
 </select><br>
-    <h2><span th:text="${localDateTime}"></span></h2>
-
     <button type="submit">Update task</button>
 </form>
+<h2><span th:text="${localDateTime}"></span></h2>
 </body>
 </html>
