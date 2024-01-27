@@ -30,7 +30,7 @@ public class Task {
     private LocalDateTime localDateTime = LocalDateTime.now();
     @Column
     @Enumerated(EnumType.STRING)
-    private Status status;
+    private Status status = Status.CREATE;
 }
 
 
