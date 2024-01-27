@@ -1,5 +1,6 @@
 package com.taxah.spring_dz5.service;
 
+import com.taxah.spring_dz5.exceptions.ResourceNotFoundException;
 import com.taxah.spring_dz5.model.Status;
 import com.taxah.spring_dz5.model.Task;
 import com.taxah.spring_dz5.repository.TaskRepository;
@@ -78,7 +79,7 @@ public class TaskService {
      * @param updatedTask Task: The updated task.
      * @param id          Long: The ID of the task to update.
      * @return Task: The updated task.
-     * @throws IllegalArgumentException if the task with the given ID is not found.
+     * @throws ResourceNotFoundException if the task with the given ID is not found.
      */
     public Task updateTask(Task updatedTask, Long id) {
         Optional<Task> optionalTask = repository.findById(id);
@@ -89,7 +90,7 @@ public class TaskService {
             task.setStatus(updatedTask.getStatus());
             return repository.save(task);
         } else {
-            throw new IllegalArgumentException("Task not found with id: " + id);
+            throw new ResourceNotFoundException("Task not found with id: " + id);
         }
     }
 

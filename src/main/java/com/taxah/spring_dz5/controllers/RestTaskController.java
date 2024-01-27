@@ -1,5 +1,6 @@
 package com.taxah.spring_dz5.controllers;
 
+import com.taxah.spring_dz5.exceptions.ResourceNotFoundException;
 import com.taxah.spring_dz5.model.Status;
 import com.taxah.spring_dz5.model.Task;
 import com.taxah.spring_dz5.service.TaskService;
@@ -13,10 +14,11 @@ import java.util.List;
  * <p>
  * Example Usage:
  * Accessing all tasks: GET request to "/api"
+ * Accessing task by Id: GET request to "/api/{id}"
  * Adding a task: POST request to "/api"
  * Updating a task: PUT request to "/api/{id}"
  * Deleting a task: DELETE request to "/api/{id}"
- * Retrieving tasks by status: GET request to "/api/{status}" Status must be UPPER CASE
+ * Retrieving tasks by status: GET request to "/api/filter/{status}" Status must be UPPER CASE
  * <p>
  * Dependencies:
  * - TaskService: The service for handling task-related business logic.
@@ -40,6 +42,19 @@ public class RestTaskController {
     @GetMapping("/api")
     public List<Task> getAllTasks() {
         return service.getAllTasks();
+    }
+
+    /**
+     * Get Task by Id
+     * <p>
+     * Handles GET requests to "/api/{id}" and retrieves task by Id.
+     *
+     * @return Task: or throw a ResourceNotFoundException.
+     */
+    @GetMapping("/api/{id}")
+    public Task getTaskById(@PathVariable Long id) {
+        return service.getTask(id)
+                .orElseThrow(()->new ResourceNotFoundException("Task not found with id: " + id));
     }
 
     /**
@@ -89,7 +104,7 @@ public class RestTaskController {
      * @param status Status: The status of tasks to retrieve.
      * @return List<Task>: A list of tasks with the specified status.
      */
-    @GetMapping("/api/{status}")
+    @GetMapping("/api/filter/{status}")
     public List<Task> getTaskByStatus(@PathVariable Status status) {
         return service.findByStatus(status);
     }
