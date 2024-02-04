@@ -1,5 +1,6 @@
 package com.taxah.spring_dz5.controllers;
 
+import com.taxah.spring_dz5.aspects.TrackUserAction;
 import com.taxah.spring_dz5.exceptions.ResourceNotFoundException;
 import com.taxah.spring_dz5.model.Status;
 import com.taxah.spring_dz5.model.Task;
@@ -39,6 +40,7 @@ public class RestTaskController {
      *
      * @return List<Task>: A list of all tasks.
      */
+    @TrackUserAction
     @GetMapping("/api")
     public List<Task> getAllTasks() {
         return service.getAllTasks();
@@ -51,10 +53,11 @@ public class RestTaskController {
      *
      * @return Task: or throw a ResourceNotFoundException.
      */
+    @TrackUserAction
     @GetMapping("/api/{id}")
     public Task getTaskById(@PathVariable Long id) {
         return service.getTask(id)
-                .orElseThrow(()->new ResourceNotFoundException("Task not found with id: " + id));
+                .orElseThrow(() -> new ResourceNotFoundException("Task not found with id: " + id));
     }
 
     /**
@@ -65,6 +68,7 @@ public class RestTaskController {
      * @param task Task: The task to add.
      * @return Task: The added task.
      */
+    @TrackUserAction
     @PostMapping("/api")
     public Task addtask(@RequestBody Task task) {
         return service.addTask(task);
@@ -73,15 +77,15 @@ public class RestTaskController {
     /**
      * Update Task
      * <p>
-     * Handles PUT requests to "/api/{id}" and updates a task by ID.
+     * Handles PUT requests to "/api" and updates a task from body.
      *
-     * @param id   Long: The ID of the task to update.
      * @param task Task: The updated task.
      * @return Task: The updated task.
      */
-    @PutMapping("/api/{id}")
-    public Task updateTask(@PathVariable Long id, @RequestBody Task task) {
-        return service.updateTask(task, id);
+    @TrackUserAction
+    @PutMapping("/api")
+    public Task updateTask(@RequestBody Task task) {
+        return service.updateTask(task);
     }
 
     /**
@@ -91,6 +95,7 @@ public class RestTaskController {
      *
      * @param id Long: The ID of the task to delete.
      */
+    @TrackUserAction
     @DeleteMapping("/api/{id}")
     public void deleteTask(@PathVariable Long id) {
         service.deleteTask(id);
@@ -104,6 +109,7 @@ public class RestTaskController {
      * @param status Status: The status of tasks to retrieve.
      * @return List<Task>: A list of tasks with the specified status.
      */
+    @TrackUserAction
     @GetMapping("/api/filter/{status}")
     public List<Task> getTaskByStatus(@PathVariable Status status) {
         return service.findByStatus(status);

@@ -6,22 +6,24 @@
     <link rel="stylesheet" href="/css/update.css">
 </head>
 <body>
-<form action="/submit" th:action="@{/tasks}" th:object="${task}" method="post">
-    <h2>UPDATE TASK:</h2>
-    <label for="id">ID: </label><input readonly type="text" th:field="*{id}" id="id" placeholder="ID">
-    <br/>
-    <label for="description">Description: </label><textarea id="description"
-                                                            name="description"
-                                                            rows="4" cols="50"
-                                                            required
-                                                            th:field="*{description}"></textarea><br>
-    <label for="status">Status: </label><select id="status" name="status" required th:field="*{status}">
-    <option value="CREATE" >Create</option>
-    <option value="PROCESSING" >Processing</option>
-    <option value="FINISHED" >Finished</option>
-</select><br>
-    <button type="submit">Update task</button>
-</form>
+    <form th:object="${task}" th:action="@{/task-update}"  method="post">
+        <input type="hidden" name="_method" value="PUT">
+        <h2>UPDATE TASK:</h2>
+        <label for="id">ID: </label><input readonly type="text" th:field="*{id}" id="id" placeholder="ID">
+        <br/>
+        <label for="description">Description: </label><textarea id="description"
+                                                                name="description"
+                                                                rows="4" cols="50"
+                                                                required
+                                                                th:field="*{description}"></textarea><br>
+        <label for="status">Status: </label>
+        <select id="status" name="status" required th:field="*{status}">
+            <option value="CREATE" >Create</option>
+            <option value="PROCESSING" >Processing</option>
+            <option value="FINISHED" >Finished</option>
+        </select><br>
+        <button type="submit">Update task</button>
+    </form>
 <h2><span th:text="${localDateTime}"></span></h2>
 </body>
 </html>

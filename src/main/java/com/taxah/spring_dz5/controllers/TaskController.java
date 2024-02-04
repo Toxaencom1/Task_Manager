@@ -1,9 +1,11 @@
 package com.taxah.spring_dz5.controllers;
 
+import com.taxah.spring_dz5.aspects.TrackUserAction;
 import com.taxah.spring_dz5.model.Status;
 import com.taxah.spring_dz5.model.Task;
 import com.taxah.spring_dz5.service.TaskService;
 import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -12,7 +14,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.Optional;
 
-
+@Slf4j
 @Controller
 @AllArgsConstructor
 @RequestMapping
@@ -31,6 +33,7 @@ public class TaskController {
      *
      * @return String: The view name ("index") for the home page.
      */
+    @TrackUserAction
     @GetMapping("/")
     public String hello() {
         return "index";
@@ -44,6 +47,7 @@ public class TaskController {
      * @param model Model: The Spring MVC model for passing data to the view.
      * @return String: The view name for displaying tasks.
      */
+//    @TrackUserAction // подумал что без отслеживания этого метода будет лучше)
     @GetMapping("/tasks")
     public String showAllTasks(Model model) {
         List<Task> tasks = service.getAllTasks();
@@ -59,6 +63,8 @@ public class TaskController {
      * @param task Task: The task to be added.
      * @return String: A redirection to the "/tasks" endpoint after adding the task.
      */
+
+    @TrackUserAction
     @PostMapping("/tasks")
     public String addTask(Task task) {
         service.addTask(task);
@@ -73,6 +79,7 @@ public class TaskController {
      * @param id Long: The ID of the task to be deleted.
      * @return String: A redirection to the "/tasks" endpoint after deleting the task.
      */
+    @TrackUserAction
     @RequestMapping("/task-delete/{id}")
     public String deleteTask(@PathVariable("id") Long id) {
         service.deleteTask(id);
@@ -88,6 +95,7 @@ public class TaskController {
      * @param model Model: The Spring MVC model for passing data to the view.
      * @return String: The view name ("update") for updating the task.
      */
+    @TrackUserAction
     @GetMapping("/task-update/{id}")
     public String findById(@PathVariable("id") Long id, Model model) {
         Optional<Task> optionalTask = service.getTask(id);
@@ -102,15 +110,15 @@ public class TaskController {
     /**
      * Update Task
      * <p>
-     * Handles PUT requests to "/task-update/{id}" and updates a task by ID.
+     * Handles PUT requests to "/task-update" and updates a task.
      *
-     * @param id   Long: The ID of the task to be updated.
      * @param task Task: The updated task.
      * @return String: A redirection to the "/tasks" endpoint after updating the task.
      */
-    @PutMapping("/task-update/{id}")
-    public String updateTask(@PathVariable Long id, Task task) {
-        service.updateTask(task, id);
+    @TrackUserAction
+    @PutMapping("/task-update")
+    public String updateTask(Task task) {
+        service.updateTask(task);
         return R_TASKS;
     }
 
@@ -123,6 +131,7 @@ public class TaskController {
      * @param model  Model: The Spring MVC model for passing data to the view.
      * @return String: The view name for displaying tasks.
      */
+    @TrackUserAction
     @RequestMapping("/findByStatus")
     public String findByStatus(@RequestParam("state") Status status, Model model) {
         List<Task> tasks = service.findByStatus(status);
