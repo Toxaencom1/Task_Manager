@@ -19,7 +19,7 @@ import java.time.LocalDateTime;
  */
 @Data
 @Entity
-@Table(name = "tasks")
+@Table(name = "tasks", schema = "dz5db")
 public class Task {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
