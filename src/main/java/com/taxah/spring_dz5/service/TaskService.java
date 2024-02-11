@@ -96,6 +96,10 @@ public class TaskService {
      * @param id Long: The ID of the task to delete.
      */
     public void deleteTask(Long id) {
-        repository.deleteById(id);
+        Optional<Task> optional = repository.findById(id);
+        if (optional.isPresent()){
+            repository.deleteById(id);
+        } else
+            throw new ResourceNotFoundException("Task not found with id: " + id);
     }
 }
