@@ -1,12 +1,16 @@
 package com.taxah.spring_dz5.aspects;
 
 
+import com.taxah.spring_dz5.service.FileGateway;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.JoinPoint;
 
 import org.aspectj.lang.annotation.After;
 import org.aspectj.lang.annotation.Aspect;
 import org.springframework.stereotype.Component;
+
+
 
 /**
  * TrackUserAspect Class
@@ -26,8 +30,12 @@ import org.springframework.stereotype.Component;
  */
 @Slf4j
 @Aspect
+@RequiredArgsConstructor
 @Component
 public class TrackUserAspect {
+
+    private final FileGateway fileGateway;
+
     /**
      * logExecution Method
      * <p>
@@ -39,6 +47,7 @@ public class TrackUserAspect {
     @After("@annotation(com.taxah.spring_dz5.aspects.TrackUserAction)")
     public void logExecution(JoinPoint joinPoint) throws Throwable {
         String method = joinPoint.getSignature().getName();
+        fileGateway.writeToFile("UserRequestLog.txt", method);
         log.info("User action: " + method + " executed!");
     }
 }
